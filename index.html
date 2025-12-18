@@ -32,7 +32,7 @@ button{
   color:white;
   font-size:15px;
   cursor:pointer;
-  margin-top:10px;
+  margin:8px;
 }
 
 input{
@@ -45,65 +45,95 @@ input{
 
 img{
   width:120px;
+  margin-top:10px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="box" id="box">
-  <h3>شو اسمك؟</h3>
-  <input id="name">
-  <br>
-  <button onclick="start()">دخول</button>
+<div class="box">
+  <div id="content"></div>
 </div>
 
 <script>
-function start(){
-  const name = document.getElementById("name").value;
-  if(!name) return;
+const content = document.getElementById("content");
+let userName = "";
 
-  document.getElementById("box").innerHTML = `
-    <h3>أهلًا ${name} ❤️</h3>
-    <p>
-    في ناس وجودهم خفيف<br>
-    بس يغيّر الإحساس كله
-    </p>
-    <img src="https://i.imgur.com/9QO7YbK.png"><br>
-    <button onclick="next()">كمّل</button>
+// المرحلة 1: إدخال الاسم
+function showNameStep(){
+  content.innerHTML = `
+    <h3>شو اسمك؟</h3>
+    <input id="nameInput">
+    <br>
+    <button id="startBtn">دخول</button>
   `;
+
+  document.getElementById("startBtn").addEventListener("click", () => {
+    const val = document.getElementById("nameInput").value.trim();
+    if(!val) return;
+    userName = val;
+    showIntro();
+  });
 }
 
-function next(){
-  document.getElementById("box").innerHTML = `
+// المرحلة 2: ترحيب
+function showIntro(){
+  content.innerHTML = `
+    <h3>أهلًا ${userName} ❤️</h3>
     <p>
-    لما تحب<br>
-    بتحب تطمّن ولا تحب الشغف؟
+      في ناس وجودهم بسيط<br>
+      بس يغيّر الإحساس كله
     </p>
-    <button onclick="end1()">يطمني</button>
-    <button onclick="end2()">يشدني</button>
+    <img src="https://i.imgur.com/9QO7YbK.png">
+    <br>
+    <button id="nextBtn">كمّل</button>
   `;
+
+  document.getElementById("nextBtn").addEventListener("click", showQuestion);
 }
 
-function end1(){
-  document.getElementById("box").innerHTML = `
+// المرحلة 3: السؤال
+function showQuestion(){
+  content.innerHTML = `
     <p>
-    اختيارك دافي ❤️<br>
-    تحب الحب اللي يحتوي
+      لما تحب<br>
+      بتحب يطمنك ولا يشدّك؟
+    </p>
+    <button id="warmBtn">يطمني</button>
+    <button id="deepBtn">يشدني</button>
+  `;
+
+  document.getElementById("warmBtn").addEventListener("click", showWarmEnd);
+  document.getElementById("deepBtn").addEventListener("click", showDeepEnd);
+}
+
+// النهاية 1
+function showWarmEnd(){
+  content.innerHTML = `
+    <p>
+      اختيارك دافي ❤️<br>
+      تحب الحب اللي يحتوي<br>
+      ويحسّسك بالأمان
     </p>
     <img src="https://i.imgur.com/oYiTqum.png">
   `;
 }
 
-function end2(){
-  document.getElementById("box").innerHTML = `
+// النهاية 2
+function showDeepEnd(){
+  content.innerHTML = `
     <p>
-    تحب العمق والشغف 😌<br>
-    تحب تحس إنك حي
+      تحب الشغف 😌<br>
+      تحب تحس إنك حي<br>
+      حتى لو الطريق أعمق
     </p>
     <img src="https://i.imgur.com/9QO7YbK.png">
   `;
 }
+
+// تشغيل أول خطوة
+showNameStep();
 </script>
 
 </body>
