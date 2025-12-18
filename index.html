@@ -105,7 +105,6 @@ while(!name){
 
 /* عداد زوار حقيقي */
 let views = 0;
-fetch("https://api.countapi.xyz/hit/love-page-example/visits")
   .then(res => res.json())
   .then(data => {
     views = data.value;
