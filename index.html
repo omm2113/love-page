@@ -2,89 +2,49 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>🐰❤️🐰</title>
+<title>Love Page</title>
 
 <style>
 body{
   margin:0;
   height:100vh;
-  background:linear-gradient(#ffd6e0,#fff);
+  background:#ffe4ec;
   display:flex;
   justify-content:center;
   align-items:center;
   font-family:Arial;
-  overflow:hidden;
 }
 
 .box{
-  width:360px;
   background:white;
   padding:25px;
-  border-radius:25px;
-  box-shadow:0 20px 40px rgba(0,0,0,.2);
+  width:320px;
+  border-radius:20px;
   text-align:center;
-  animation:fade .6s;
-}
-
-@keyframes fade{
-  from{opacity:0; transform:translateY(20px)}
-  to{opacity:1; transform:translateY(0)}
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
 }
 
 button{
-  padding:10px 22px;
-  margin:8px;
+  padding:10px 20px;
   border:none;
-  border-radius:25px;
+  border-radius:20px;
   background:#ff4d6d;
   color:white;
   font-size:15px;
   cursor:pointer;
-  transition:.25s;
+  margin-top:10px;
 }
-button:hover{transform:scale(1.05)}
 
 input{
   padding:10px;
+  width:80%;
   border-radius:15px;
   border:1px solid #ddd;
-  width:80%;
   text-align:center;
-  font-size:15px;
 }
 
-.animals{
-  position:relative;
-  height:160px;
-  margin-top:15px;
-}
-
-.animal{
-  position:absolute;
-  bottom:0;
-  width:130px;
-}
-
-.left{left:0}
-.right{
-  right:0;
-  animation:kiss 1.2s infinite alternate;
-}
-
-@keyframes kiss{
-  from{transform:translateX(0)}
-  to{transform:translateX(-25px)}
-}
-
-.heart{
-  position:fixed;
-  bottom:-20px;
-  animation:float 5s linear infinite;
-}
-
-@keyframes float{
-  from{transform:translateY(0);opacity:1}
-  to{transform:translateY(-110vh);opacity:0}
+img{
+  width:120px;
 }
 </style>
 </head>
@@ -93,113 +53,56 @@ input{
 
 <div class="box" id="box">
   <h3>شو اسمك؟</h3>
-  <input id="nameInput" placeholder="اكتب اسمك">
-  <br><br>
+  <input id="name">
+  <br>
   <button onclick="start()">دخول</button>
 </div>
 
-<audio id="bgm" src="https://cdn.pixabay.com/audio/2022/10/25/audio_7f6bfc48c5.mp3" loop></audio>
-<audio id="click" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
-
 <script>
-const box = document.getElementById("box");
-const bgm = document.getElementById("bgm");
-const click = document.getElementById("click");
-
-let name = "";
-let path = "";
-
 function start(){
-  const input = document.getElementById("nameInput").value.trim();
-  if(!input) return;
-  name = input;
-  bgm.play();
-  step1();
-}
+  const name = document.getElementById("name").value;
+  if(!name) return;
 
-function step1(){
-  render(`
-    أهلًا <b>${name}</b> 👀<br><br>
+  document.getElementById("box").innerHTML = `
+    <h3>أهلًا ${name} ❤️</h3>
+    <p>
     في ناس وجودهم خفيف<br>
-    بس يغيّر المزاج
-  `,
-  [
-    {t:"صحيح", f:step2}
-  ]);
-}
-
-function step2(){
-  render(`
-    خليني أسألك بصراحة<br>
-    لما ترتاح مع شخص
-  `,
-  [
-    {t:"تقرب", f:()=>{path="warm"; step3();}},
-    {t:"تراقب", f:()=>{path="deep"; step3();}}
-  ]);
-}
-
-function step3(){
-  render(`
-    طبيعي اختيارك<br>
-    بس السؤال الأهم
-  `,
-  [
-    {t:"شو هو؟", f:end}
-  ]);
-}
-
-function end(){
-  if(path==="warm"){
-    box.innerHTML=`
-      <h3>${name} ❤️</h3>
-      <p>
-      واضح إنك تحب الحب الدافي<br>
-      اللي يطمن ويحتوي<br>
-      بدون ضغط ولا شروط
-      </p>
-      <div class="animals">
-        <img class="animal left" src="https://i.imgur.com/9QO7YbK.png">
-        <img class="animal right" src="https://i.imgur.com/oYiTqum.png">
-      </div>
-    `;
-  } else {
-    box.innerHTML=`
-      <h3>${name} 😌</h3>
-      <p>
-      تحب العمق<br>
-      تحب شخص يفهمك<br>
-      حتى وانت ساكت
-      </p>
-      <div class="animals">
-        <img class="animal left" src="https://i.imgur.com/oYiTqum.png">
-        <img class="animal right" src="https://i.imgur.com/9QO7YbK.png">
-      </div>
-    `;
-  }
-  hearts();
-}
-
-function render(text, buttons){
-  click.play();
-  box.innerHTML=`
-    <div style="line-height:1.6">${text}</div>
-    <div>
-      ${buttons.map(b=>`<button onclick="${b.f.name}()">${b.t}</button>`).join("")}
-    </div>
+    بس يغيّر الإحساس كله
+    </p>
+    <img src="https://i.imgur.com/9QO7YbK.png"><br>
+    <button onclick="next()">كمّل</button>
   `;
 }
 
-function hearts(){
-  setInterval(()=>{
-    const h=document.createElement("div");
-    h.className="heart";
-    h.innerText="❤️";
-    h.style.left=Math.random()*100+"vw";
-    h.style.fontSize=(15+Math.random()*30)+"px";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),5000);
-  },350);
+function next(){
+  document.getElementById("box").innerHTML = `
+    <p>
+    لما تحب<br>
+    بتحب تطمّن ولا تحب الشغف؟
+    </p>
+    <button onclick="end1()">يطمني</button>
+    <button onclick="end2()">يشدني</button>
+  `;
+}
+
+function end1(){
+  document.getElementById("box").innerHTML = `
+    <p>
+    اختيارك دافي ❤️<br>
+    تحب الحب اللي يحتوي
+    </p>
+    <img src="https://i.imgur.com/oYiTqum.png">
+  `;
+}
+
+function end2(){
+  document.getElementById("box").innerHTML = `
+    <p>
+    تحب العمق والشغف 😌<br>
+    تحب تحس إنك حي
+    </p>
+    <img src="https://i.imgur.com/9QO7YbK.png">
+  `;
 }
 </script>
 
