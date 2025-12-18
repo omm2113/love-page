@@ -3,271 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رحلة صغيرة لكِ</title>
+    <title>نبض..</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
-        /* --- 1. التأسيس الجمالي --- */
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap');
-
         :root {
-            --primary: #ff8fa3;
-            --secondary: #c9184a;
-            --bg-color: #ffe3e3;
-            --glass: rgba(255, 255, 255, 0.85);
-            --text-color: #4a4a4a;
+            --primary-color: #ff0a54; /* أحمر قوي */
+            --glow-color: #ff477e;
+            --bg-dark: #0a0a0a; /* أسود عميق */
+            --text-light: #ffe5ec;
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+            font-family: 'Amiri', serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
             height: 100vh;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            color: var(--text-color);
+            text-align: center;
             position: relative;
         }
 
-        /* الخلفية المتحركة (القلوب الطائرة) */
-        .floating-hearts {
+        /* --- خلفية الجزيئات المتحركة --- */
+        #particle-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            z-index: 1;
             pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
         }
 
-        .heart-bg {
+        .particle {
             position: absolute;
-            bottom: -100px;
-            font-size: 2rem;
-            color: rgba(255, 143, 163, 0.4);
-            animation: floatUp 15s linear infinite;
+            border-radius: 50%;
+            background: var(--primary-color);
+            opacity: 0.5;
+            box-shadow: 0 0 10px var(--glow-color);
+            animation: float var(--duration) ease-in infinite;
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.6; }
-            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            50% { opacity: 0.7; }
+            100% { transform: translateY(-100vh) scale(0); opacity: 0; }
         }
 
-        /* --- 2. الحاوية الزجاجية --- */
-        #app-container {
-            width: 90%;
-            max-width: 500px;
-            min-height: 400px;
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(255, 71, 87, 0.15);
-            padding: 40px;
-            text-align: center;
-            position: relative;
+        /* --- الحاوية الرئيسية للمحتوى --- */
+        #content-box {
             z-index: 10;
+            width: 90%;
+            max-width: 600px;
+            min-height: 50vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: all 0.5s ease;
+            padding: 30px;
+            /* تأثير زجاجي داكن */
+            background: rgba(20, 0, 5, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 10, 84, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 10, 84, 0.1);
+            transition: all 0.8s ease-in-out;
         }
 
-        /* --- 3. النصوص والعناصر --- */
-        h1, h2 {
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--secondary);
-            line-height: 1.5;
+        /* --- النصوص والعناصر --- */
+        .fade-text {
+            font-size: 1.8rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px rgba(255, 71, 126, 0.5);
+            animation: textGlow 3s infinite alternate;
         }
 
-        p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 30px;
-            color: #555;
+        @keyframes textGlow {
+            from { text-shadow: 0 0 5px rgba(255, 71, 126, 0.3); }
+            to { text-shadow: 0 0 20px rgba(255, 10, 84, 0.8), 0 0 30px var(--primary-color); }
         }
 
-        .input-group {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #ffd1dc;
-            border-radius: 15px;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 1rem;
+        /* حقل الإدخال المتوهج */
+        .glow-input {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--text-light);
+            font-size: 1.5rem;
+            font-family: 'Amiri', serif;
             text-align: center;
+            padding: 10px;
+            margin-bottom: 30px;
             outline: none;
+            box-shadow: 0 5px 10px -5px var(--glow-color);
             transition: 0.3s;
-            background: rgba(255,255,255,0.9);
+        }
+        .glow-input:focus {
+            box-shadow: 0 10px 20px -5px var(--glow-color);
+            border-bottom-color: white;
         }
 
-        input[type="text"]:focus {
-            border-color: var(--secondary);
-            box-shadow: 0 0 10px rgba(201, 24, 74, 0.1);
-        }
-
-        /* الأزرار */
-        .btn {
-            background: var(--secondary);
+        /* الزر النابض */
+        .pulse-btn {
+            background: linear-gradient(45deg, var(--primary-color), #bd0043);
             color: white;
             border: none;
-            padding: 12px 35px;
-            font-size: 1rem;
+            padding: 15px 40px;
+            font-size: 1.3rem;
             border-radius: 50px;
             cursor: pointer;
-            font-family: 'Tajawal', sans-serif;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 5px 15px rgba(201, 24, 74, 0.3);
-            margin: 5px;
+            font-family: 'Amiri', serif;
+            box-shadow: 0 0 20px var(--primary-color);
+            animation: pulse 2s infinite;
+            transition: 0.3s;
         }
 
-        .btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            background: #a4133c;
+        .pulse-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px var(--glow-color);
         }
 
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--secondary);
-            color: var(--secondary);
-            box-shadow: none;
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 10, 84, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 10, 84, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 10, 84, 0); }
         }
 
-        .btn-outline:hover {
-            background: var(--secondary);
-            color: white;
-        }
-
-        /* خيارات الأسئلة */
-        .choices-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
-        }
-
-        .choice-card {
-            background: white;
-            padding: 15px;
-            border-radius: 15px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .choice-card:hover {
-            border-color: var(--secondary);
-            transform: translateX(-5px);
-        }
-
-        .choice-text {
+        /* --- النهاية المتفجرة --- */
+        .final-text-huge {
+            font-size: 3.5rem;
             font-weight: bold;
+            color: white;
+            text-shadow: 0 0 30px var(--primary-color), 0 0 60px var(--primary-color);
+            animation: finalReveal 1.5s ease-out forwards;
         }
 
-        .choice-icon {
-            font-size: 1.5rem;
+        @keyframes finalReveal {
+            0% { opacity: 0; transform: scale(0.5); letter-spacing: -5px;}
+            80% { transform: scale(1.1); letter-spacing: 2px;}
+            100% { opacity: 1; transform: scale(1); letter-spacing: 0;}
         }
 
-        /* الصور */
-        .img-display {
-            width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            animation: fadeIn 1s ease;
+        .exploding-heart {
+            position: fixed;
+            font-size: 2rem;
+            color: var(--primary-color);
+            z-index: 5;
+            pointer-events: none;
+            animation: explode 1s ease-out forwards;
         }
 
-        /* أنميشن الظهور */
-        .fade-in {
-            animation: fadeIn 0.8s ease-in-out forwards;
+        @keyframes explode {
+            to { transform: translate(var(--tx), var(--ty)) rotate(var(--r)) scale(0); opacity: 0; }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* إخفاء مشغل الصوت */
-        audio { display: none; }
-
+        /* فئة مساعدة للإخفاء التدريجي */
+        .hiding { opacity: 0; transform: translateY(-20px); }
     </style>
 </head>
 <body>
 
-    <div class="floating-hearts" id="bg-hearts"></div>
-
     <audio id="bg-music" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=soft-piano-111361.mp3" type="audio/mpeg">
+        <source src="https://cdn.pixabay.com/download/audio/2023/09/06/audio_845724799e.mp3?filename=emotional-cinematic-piano-165769.mp3" type="audio/mpeg">
     </audio>
 
-    <div id="app-container">
+    <div id="particle-container"></div>
+
+    <div id="content-box">
         </div>
 
     <script>
-        // --- 1. البيانات والسيناريو ---
-        const story = {
-            intro: {
-                title: "مرحباً يا جميلة",
-                text: "قبل أن نبدأ هذه الرحلة الصغيرة... أحب أن أناديكِ بأحب الأسماء إليكِ.",
-                placeholder: "اكتبي اسمك هنا...",
-                btnText: "ابدأ الرحلة ✨"
+        // --- إعدادات الجو العام ---
+        const music = document.getElementById('bg-music');
+        const container = document.getElementById('content-box');
+        let userName = "";
+        let stepIndex = 0;
+
+        // --- سيناريو الرسالة المتدفقة (ليس أسئلة) ---
+        const storyline = [
+            {
+                // المرحلة 0: البداية الصامتة
+                type: "intro",
+                text: "في وسط ضجيج هذا العالم... هناك صوت واحد فقط أسمعه بوضوح.",
+                btn: "اسمعي معي..."
             },
-            greeting: {
-                text: "أهلاً بكِ يا [Name]... <br>هذه المساحة ليست اختباراً، ولا لعبة.<br>هي فقط بضع دقائق لروحكِ، ولأعرفكِ أكثر."
+            {
+                // المرحلة 1: طلب الاسم بطريقة شاعرية
+                type: "input",
+                text: "من التي غيرت كل موازيني؟",
+                placeholder: "اكتبي اسمكِ هنا يا نبضي...",
+                btn: "أنا هي"
             },
-            questions: [
-                {
-                    id: 1,
-                    text: "لو كان بإمكاننا إيقاف عقارب الساعة للحظة واحدة فقط... أين تختارين أن نكون؟",
-                    image: "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-                    options: [
-                        { text: "تحت ضوء النجوم والهدوء التام", icon: "🌌", type: "deep" },
-                        { text: "أمام البحر وقت الشروق", icon: "🌅", type: "calm" }
-                    ]
-                },
-                {
-                    id: 2,
-                    text: "الحب بالنسبة لكِ يشبه...",
-                    image: "https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-                    options: [
-                        { text: "بيت دافئ في يوم ممطر", icon: "🏡", type: "calm" },
-                        { text: "رحلة مغامرة لا تنتهي", icon: "✈️", type: "deep" }
-                    ]
-                },
-                {
-                    id: 3,
-                    text: "عندما تكونين معي، ما هو الشعور الذي يطغى عليكِ؟",
-                    image: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-                    options: [
-                        { text: "أنني أخيراً وصلت لمنزلي", icon: "💖", type: "calm" },
-                        { text: "أنني أملك العالم كله", icon: "🌍", type: "deep" }
-                    ]
-                }
-            ],
-            endings: {
-                calm: {
-                    title: "أنتِ أماني وسكينتي",
-                    text: "يا [Name]، اختياراتك تخبرني أنكِ تبحثين عن الدفء، وعن المكان الذي ترتاح فيه روحك.<br><br>أريدك أن تعرفي أن قلبي هو هذا البيت.<br>أحبك لأنك الهدوء في وسط ضجيج هذا العالم.",
-                    image: "https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                },
-                deep: {
-                    title: "أنتِ كوني وعالمي",
+            {
+                 // المرحلة 2: اعتراف مباشر
+                type: "statement",
+                text: "يا [Name]... <br>أريدك أن تنسي كل شيء الآن، وتركزين في هذه الكلمات فقط.",
+                btn: "أنا معك.."
+            },
+             {
+                 // المرحلة 3: تعميق الشعور
+                type: "statement",
+                text: "وجودك في حياتي ليس مجرد صدفة جميلة.<br>إنه الشيء الوحيد الذي يجعل كل شيء آخر يبدو منطقياً.",
+                btn: "أشعر بك..."
+            },
+            {
+                 // المرحلة 4: ما قبل النهاية (الوعد)
+                type: "statement",
+                text: "لذلك، هذه ليست مجرد رسالة عابرة.<br>هذا ليس إعجاباً مؤقتاً.<br>هذا ميثاق ووعد مني لكِ أمام الله وقلبي.",
