@@ -2,13 +2,13 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Love Page</title>
+<title>قصة صغيرة</title>
 
 <style>
 body{
   margin:0;
   height:100vh;
-  background:#ffe4ec;
+  background:linear-gradient(#ffd6e0,#fff);
   display:flex;
   justify-content:center;
   align-items:center;
@@ -17,22 +17,22 @@ body{
 
 .box{
   background:white;
+  width:360px;
   padding:25px;
-  width:320px;
-  border-radius:20px;
+  border-radius:25px;
+  box-shadow:0 20px 40px rgba(0,0,0,.2);
   text-align:center;
-  box-shadow:0 10px 30px rgba(0,0,0,.2);
 }
 
 button{
-  padding:10px 20px;
+  padding:10px 22px;
+  margin:8px;
   border:none;
   border-radius:20px;
   background:#ff4d6d;
   color:white;
   font-size:15px;
   cursor:pointer;
-  margin:8px;
 }
 
 input{
@@ -44,96 +44,136 @@ input{
 }
 
 img{
-  width:120px;
+  width:140px;
   margin-top:10px;
+}
+
+.fade{
+  animation:fade .4s;
+}
+
+@keyframes fade{
+  from{opacity:0; transform:translateY(10px)}
+  to{opacity:1; transform:translateY(0)}
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
-  <div id="content"></div>
-</div>
+<div class="box fade" id="box"></div>
 
 <script>
-const content = document.getElementById("content");
-let userName = "";
+const box = document.getElementById("box");
+let name = "";
+let score = 0;
 
-// المرحلة 1: إدخال الاسم
-function showNameStep(){
-  content.innerHTML = `
-    <h3>شو اسمك؟</h3>
+/* المرحلة 1 */
+function askName(){
+  box.innerHTML = `
+    <h3>خلينا نبلّش بهدوء</h3>
+    <p>شو اسمك؟</p>
     <input id="nameInput">
     <br>
-    <button id="startBtn">دخول</button>
+    <button id="go">دخول</button>
   `;
 
-  document.getElementById("startBtn").addEventListener("click", () => {
-    const val = document.getElementById("nameInput").value.trim();
-    if(!val) return;
-    userName = val;
-    showIntro();
+  document.getElementById("go").addEventListener("click",()=>{
+    const v = document.getElementById("nameInput").value.trim();
+    if(!v) return;
+    name = v;
+    intro1();
   });
 }
 
-// المرحلة 2: ترحيب
-function showIntro(){
-  content.innerHTML = `
-    <h3>أهلًا ${userName} ❤️</h3>
+/* المرحلة 2 */
+function intro1(){
+  box.innerHTML = `
+    <h3>أهلًا ${name}</h3>
     <p>
-      في ناس وجودهم بسيط<br>
+      في ناس وجودهم خفيف<br>
       بس يغيّر الإحساس كله
     </p>
-    <img src="https://i.imgur.com/9QO7YbK.png">
-    <br>
-    <button id="nextBtn">كمّل</button>
+    <button id="next1">كمّل</button>
   `;
-
-  document.getElementById("nextBtn").addEventListener("click", showQuestion);
+  document.getElementById("next1").addEventListener("click",intro2);
 }
 
-// المرحلة 3: السؤال
-function showQuestion(){
-  content.innerHTML = `
+function intro2(){
+  box.innerHTML = `
     <p>
-      لما تحب<br>
-      بتحب يطمنك ولا يشدّك؟
+      يمكن لأنهم حقيقيين<br>
+      أو لأنهم إجوا بوقت صح
     </p>
-    <button id="warmBtn">يطمني</button>
-    <button id="deepBtn">يشدني</button>
+    <button id="next2">يمكن</button>
   `;
-
-  document.getElementById("warmBtn").addEventListener("click", showWarmEnd);
-  document.getElementById("deepBtn").addEventListener("click", showDeepEnd);
+  document.getElementById("next2").addEventListener("click",q1);
 }
 
-// النهاية 1
-function showWarmEnd(){
-  content.innerHTML = `
+/* سؤال 1 */
+function q1(){
+  box.innerHTML = `
     <p>
-      اختيارك دافي ❤️<br>
-      تحب الحب اللي يحتوي<br>
-      ويحسّسك بالأمان
+      لما ترتاح مع شخص<br>
+      بتقرب ولا بتراقب؟
     </p>
-    <img src="https://i.imgur.com/oYiTqum.png">
+    <button id="a">أقرب</button>
+    <button id="b">أراقب</button>
   `;
+
+  document.getElementById("a").addEventListener("click",()=>{
+    score++;
+    q2();
+  });
+
+  document.getElementById("b").addEventListener("click",q2);
 }
 
-// النهاية 2
-function showDeepEnd(){
-  content.innerHTML = `
+/* سؤال 2 */
+function q2(){
+  box.innerHTML = `
     <p>
-      تحب الشغف 😌<br>
-      تحب تحس إنك حي<br>
-      حتى لو الطريق أعمق
+      تحب الكلام<br>
+      ولا الأفعال؟
     </p>
-    <img src="https://i.imgur.com/9QO7YbK.png">
+    <button id="a2">الكلام</button>
+    <button id="b2">الأفعال</button>
   `;
+
+  document.getElementById("a2").addEventListener("click",()=>{
+    score++;
+    end();
+  });
+
+  document.getElementById("b2").addEventListener("click",end);
 }
 
-// تشغيل أول خطوة
-showNameStep();
+/* النهاية */
+function end(){
+  if(score >= 2){
+    box.innerHTML = `
+      <h3>${name} ❤️</h3>
+      <p>
+        واضح إنك تحب الحب الدافي<br>
+        اللي يطمن بدون ما يضغط
+      </p>
+      <img src="https://i.imgur.com/oYiTqum.png">
+    `;
+  } else {
+    box.innerHTML = `
+      <h3>${name} 😌</h3>
+      <p>
+        تحب العمق<br>
+        تحب شخص يفهمك<br>
+        حتى وانت ساكت
+      </p>
+      <img src="https://i.imgur.com/9QO7YbK.png">
+    `;
+  }
+}
+
+/* تشغيل */
+askName();
 </script>
 
 </body>
