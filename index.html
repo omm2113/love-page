@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>❤️</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(#ffd6e0,#fff);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Arial;
+  overflow:hidden;
+}
+
+.box{
+  width:370px;
+  background:white;
+  padding:25px;
+  border-radius:25px;
+  box-shadow:0 20px 50px rgba(0,0,0,.2);
+  text-align:center;
+  animation:fade .7s;
+}
+
+@keyframes fade{
+  from{opacity:0; transform:translateY(30px)}
+  to{opacity:1; transform:translateY(0)}
+}
+
+button{
+  padding:10px 22px;
+  margin:8px;
+  border:none;
+  border-radius:25px;
+  background:#ff4d6d;
+  color:white;
+  font-size:15px;
+  cursor:pointer;
+  transition:.3s;
+}
+button:hover{transform:scale(1.05)}
+
+.animals{
+  position:relative;
+  height:160px;
+  margin-top:15px;
+}
+.animal{
+  position:absolute;
+  bottom:0;
+  width:130px;
+}
+.left{left:0}
+.right{
+  right:0;
+  animation:kiss 1.2s infinite alternate;
+}
+@keyframes kiss{
+  from{transform:translateX(0)}
+  to{transform:translateX(-30px)}
+}
+
+.heart{
+  position:fixed;
+  bottom:-20px;
+  animation:float 5s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(0);opacity:1}
+  to{transform:translateY(-110vh);opacity:0}
+}
+
+.small{
+  font-size:12px;
+  color:#888;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box" id="box">تحميل...</div>
+
+<!-- أصوات -->
+<audio id="bgm" src="https://cdn.pixabay.com/audio/2022/10/25/audio_7f6bfc48c5.mp3" loop></audio>
+<audio id="click" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
+
+<script>
+const box = document.getElementById("box");
+const bgm = document.getElementById("bgm");
+const click = document.getElementById("click");
+
+let name = "";
+while(!name){
+  name = prompt("شو اسمك؟");
+}
+
+/* عداد زوار حقيقي */
+let views = 0;
+fetch("https://api.countapi.xyz/hit/love-page-example/visits")
+.then(res=>res.json())
+.then(data=>{
+  views = data.value;
+  start();
+});
+
+let step = 0;
+let score = 0;
+
+function start(){
+render({
+text:`أهلًا <b>${name}</b> 👀<br><br>
+في ${views} شخص دخلوا لهون<br>
+بس كل واحد قصته غير`,
+buttons:[{t:"كمّل", n:1}]
+});
+}
+
+const story = [
+{
+text:`في ناس بتيجي حياتك<br>وتغيّر الجو بدون ما تحاول`,
+buttons:[{t:"صحيح", n:2}]
+},
+{
+text:`ولما ترتاح معهم<br>بتفهم إن الراحة مش صدفة`,
+buttons:[
+{t:"أكيد", n:3, s:1},
+{t:"يمكن", n:3, s:0}
+]
+},
+{
+text:`طيب سؤال صريح<br>${name} لما تحب`,
+buttons:[
+{t:"تحب تطمّن", n:4, s:1},
+{t:"تحب الشغف", n:4, s:2}
+]
+}
+];
+
+function render(s){
+box.innerHTML=`
+<div style="line-height:1.6">${s.text}</div>
+<div>
+${s.buttons.map(b=>`<button onclick="go(${b.n},${b.s||0})">${b.t}</button>`).join("")}
+</div>
+<div class="small">عدد الزوار ${views}</div>
+`;
+}
+
+function go(n,add){
+click.play();
+bgm.play();
+score += add;
+
+if(n===4){
+end();
+return;
+}
+render(story[n-1]);
+}
+
+function end(){
+let text="", img1="", img2="";
+
+if(score>=3){
+text=`
+${name} اختيارك واضح ❤️<br>
+تحب حب دافي<br>
+يطمنك ويقربك<br>
+بدون ضغط`;
+}else{
+text=`
+${name} تحب الحب اللي فيه حركة 😌<br>
+شغف، طاقة<br>
+وإحساس إنك حي`;
+}
+
+img1="https://i.imgur.com/9QO7YbK.png";
+img2="https://i.imgur.com/oYiTqum.png";
+
+box.innerHTML=`
+<h3>${text}</h3>
+<div class="animals">
+  <img class="animal left" src="${img1}">
+  <img class="animal right" src="${img2}">
+</div>
+<div class="small">دخلوا ${views} قبلك</div>
+`;
+
+hearts();
+}
+
+function hearts(){
+setInterval(()=>{
+const h=document.createElement("div");
+h.className="heart";
+h.innerText="❤️";
+h.style.left=Math.random()*100+"vw";
+h.style.fontSize=(15+Math.random()*30)+"px";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),5000);
+},350);
+}
+</script>
+
+</body>
+</html>
